@@ -1,34 +1,37 @@
 <?php
 
-namespace App;
+namespace App\Services;
+
+use App\Models\ParkAndRide;
+use App\Models\ParkingSpace;
 
 class SearchService
 {
     const WGS84_A = 6378137.0; // Major semiaxis
     const WGS84_B = 6356752.3; // Major semiaxis
 
-    public function searchParkingSpaces($boundingBox)
+    public function searchParkingSpaces($boundingBox, $withColumns = [])
     {
-        $results = [];
-        ParkingSpace::whereBetween('lat', [$boundingBox['se_lat'], $boundingBox['nw_lat']])
-            ->whereBetween('lng', [$boundingBox['nw_lng'], $boundingBox['se_lng']])
-            ->get()
-            ->each(function ($model) use (&$results) {
-                $results[$model->id] = $model;
-            });
-        return $results;
+        $query = ParkingSpace::with('owner:id,name')->whereBetween('lat', [$boundingBox['se_lat'], $boundingBox['nw_lat']])
+            ->whereBetween('lng', [$boundingBox['nw_lng'], $boundingBox['se_lng']]);
+
+        if (!empty($withColumns)) {
+            return $query->get($withColumns);
+        } else {
+            return $query->get();
+        }
     }
 
-    public function searchParkAndRide($boundingBox)
+    public function searchParkAndRide($boundingBox, $withColumns = [])
     {
-        $results = [];
-        ParkAndRide::whereBetween('lat', [$boundingBox['se_lat'], $boundingBox['nw_lat']])
-            ->whereBetween('lng', [$boundingBox['nw_lng'], $boundingBox['se_lng']])
-            ->get()
-            ->each(function ($model) use (&$results) {
-                $results[$model->id] = $model;
-            });
-        return $results;
+        $query =  ParkAndRide::with('owner:id,name')->whereBetween('lat', [$boundingBox['se_lat'], $boundingBox['nw_lat']])
+            ->whereBetween('lng', [$boundingBox['nw_lng'], $boundingBox['se_lng']]);
+
+        if (!empty($withColumns)) {
+            return $query->get($withColumns);
+        } else {
+            return $query->get();
+        }
     }
 
     /********************* Only edit below at part 4) *******************************/

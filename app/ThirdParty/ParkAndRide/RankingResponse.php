@@ -30,7 +30,7 @@ class RankingResponse
 
         sleep(rand(10,60));
 
-        return $this->request->getIds()->sort()->map(function ($val, $key) {
+        return collect($this->request->getIds())->sort()->map(function ($val, $key) {
             return [
                 'park_and_ride_id' => $val,
                 'rank' => $key
