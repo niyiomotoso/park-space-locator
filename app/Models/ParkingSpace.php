@@ -1,24 +1,26 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class ParkAndRide
+ * Class ParkingSpace
  *
  * @property int $id
  * @property string $name
  * @property float $lat
  * @property float $lng
- * @property string $attraction_name
- * @property string $location_description
- * @property int $minutes_to_destination
+ * @property string $space_details
+ * @property string $city
+ * @property string $street_name
+ * @property int $no_of_spaces
+ * @property int $user_id
  * @property-read User $owner
  */
-class ParkAndRide extends Model
+class ParkingSpace extends Model
 {
     use HasFactory;
 
